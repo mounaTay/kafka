@@ -1,0 +1,4 @@
+*
+!src/main/resources/log4j.properties 
+!target/scala-2.12/spark-stream*.jar
+!run.sh

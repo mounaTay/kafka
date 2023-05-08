@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer
+  namespace: kafka
+  labels:
+    app: producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer
+  template:
+    metadata:
+      labels:
+        app: producer
+    spec:
+      containers:
+        - name: producer
+          image: stream
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_SERVICE
+              value: "10.108.215.255:9092"
+            - name: SPARK_MASTER_URL
+              value: local[*]
+              # value: k8s://https://kubernetes.docker.internal:6443
+            - name: TOPIC
+              value: dummy-topic
+          command: ["/opt/app/run.sh"]
+          args: ["com.stream.Producer"]

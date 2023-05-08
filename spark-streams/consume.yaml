@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consume
+  namespace: kafka
+  labels:
+    app: consume
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consume
+  template:
+    metadata:
+      labels:
+        app: consume
+    spec:
+      containers:
+        - name: consume
+          image: stream
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_SERVICE
+              value: "10.108.215.255:9092"
+          command: ["/opt/app/run.sh"]
+          args: ["com.stream.Consume"]

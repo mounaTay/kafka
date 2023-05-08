@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  sbt:
+    image: sbt-builder
+    volumes:
+      - sbt-data:/root/.ivy2
+      - sbt-data:/root/.cache
+      - .:/opt
+    working_dir: /opt
+    environment:
+      - _JAVA_OPTIONS="-Xmx1g"
+      - KAFKA_SERVICE=10.108.215.255:9092
+
+volumes:
+  sbt-data:
+    external:
+      name: sbt-data

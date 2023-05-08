@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+  namespace: kafka
+  labels:
+    app: consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+        - name: consumer
+          image: stream
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_SERVICE
+              value: "10.108.215.255:9092"
+            - name: DB_HOST
+              value: "localhost"
+            - name: DB_PORT
+              value: "9094"
+            - name: SPARK_MASTER_URL
+              value: "local[*]"
+              # value: k8s://https://kubernetes.docker.internal:6443
+            - name: TOPIC
+              value: "dummy-topic"
+          command: ["/opt/app/run.sh"]
+          args: ["com.stream.Consumer"]
