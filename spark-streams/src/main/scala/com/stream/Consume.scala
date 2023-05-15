@@ -15,8 +15,18 @@ object Consume {
                   b: Double,
                   c: Double)
 
+case class Store (store: Int,
+  storetype: String,
+  assortment: String,
+  competitiondistance: Int,
+  competitionopensinceMmonth: Int,
+  competitionopensinceyear: Int,
+  promo2: Int,
+  promo2sinceweek: Int,
+  promo2sinceyear: Int,
+  promointerval: String)
   object MyJsonProtocol extends DefaultJsonProtocol {
-    implicit val dataFormat: RootJsonFormat[Data] = jsonFormat3(Data)
+    implicit val dataFormat: RootJsonFormat[Store] = jsonFormat10(Store)
   }
 
   def main(args: Array[String]): Unit = {
@@ -41,7 +51,7 @@ object Consume {
       if(!records.isEmpty()) {
       records.asScala.foreach(record => {
         println(s"received $record")
-        println(record.value().parseJson.convertTo[Data])
+        println(record.value().parseJson.convertTo[Store])
       })
       }
 
