@@ -1,8 +1,8 @@
-version: '3'
+version: '3.7'
 
 services:
   sbt:
-    image: sbt-builder
+    image: sbt-builder:2.13
     volumes:
       - sbt-data:/root/.ivy2
       - sbt-data:/root/.cache
@@ -10,9 +10,15 @@ services:
     working_dir: /opt
     environment:
       - _JAVA_OPTIONS="-Xmx1g"
-      - KAFKA_SERVICE=10.108.215.255:9092
+      - INPUT_TOPIC=input-topic
+      - OUTPUT_TOPIC=output-topic
+    networks:
+     - kafka
 
 volumes:
   sbt-data:
-    external:
-      name: sbt-data
+    name: sbt-data
+
+networks:
+  kafka:
+    external: true
